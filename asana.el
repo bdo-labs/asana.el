@@ -38,7 +38,7 @@
 
 (defconst asana-token (getenv "ASANA_TOKEN"))
 (defconst asana-api "https://app.asana.com/api/1.0")
-(defconst asana-headers `(("Content-Type" . "application/json")
+(defconst asana-headers `(("Content-Type" . "application/x-www-form-urlencoded")
                           ("Authorization" . ,(concat "Bearer " asana-token))))
 
 
@@ -70,7 +70,7 @@
          (url (concat asana-api "/tasks/" task-id)))
     (request url
              :type "PUT"
-             :data (json-encode '(("completed" . t)))
+             :data "completed=true"
              :headers asana-headers
              :parser 'json-read
              :error (cl-function
@@ -86,7 +86,7 @@
          (url (concat asana-api "/tasks/" task-id)))
     (request url
              :type "PUT"
-             :data (json-encode '(("assignee" . "me")))
+             :data "assignee=me"
              :headers asana-headers
              :parser 'json-read
              :error (cl-function
